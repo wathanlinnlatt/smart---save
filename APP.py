@@ -23,8 +23,8 @@ st.caption("ICT336 workshop. Data from Kaggle, for teaching only, not financial 
 @st.cache_resource
 def load_models():
     # TODO 1: load "savings_model.joblib" and "saver_model.joblib" with joblib.load
-    savings = None
-    saver = None
+    savings = joblib.load("savings_model.joblib")
+    saver = joblib.load("saver_model.joblib")
     return savings, saver
 
 
@@ -70,7 +70,7 @@ with tab_deposit:
     if st.button("Predict", type="primary"):
         # TODO 2: use savings["model"].predict_proba(...) on customer[savings["features"]]
         #         and take [0, 1] = the chance of "yes" for our one customer
-        chance = 0.0
+        chance = savings["model"].predict_proba(customer[savings["features"]])[0, 1]
         st.metric("Chance of opening a fixed deposit", f"{chance * 100:.0f}%")
         st.progress(float(chance))
         if chance >= 0.7:
@@ -93,7 +93,7 @@ with tab_group:
 
     if st.button("Find group", type="primary"):
         # TODO 3: use saver["model"].predict(...) on person[saver["features"]] and take [0]
-        group = 0
+        group = saver["model"].predict(person[saver["features"]])[0]
         st.success(f"This person is in group {group}: **{saver['names'][group]}**")
         st.info(f"Savings tip: {saver['tips'][group]}")
 
