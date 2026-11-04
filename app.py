@@ -35,7 +35,11 @@ def load_models():
 def load_customers():
     return pd.read_csv("customers_with_groups.csv")
 
+import os
 
+st.write("Current directory:", os.getcwd())
+st.write("App directory:", os.path.dirname(os.path.abspath(__file__)))
+st.write("Files in app directory:", os.listdir(os.path.dirname(os.path.abspath(__file__))))
 savings, saver = load_models()
 customers = load_customers()
 
