@@ -7,7 +7,9 @@ Tab 3  About         -> how the models were built
 Data: Kaggle "Bank Marketing" and "Mall Customer Segmentation Data".
 Run:  streamlit run app.py
 """
+import os
 import joblib
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 import pandas as pd
 import streamlit as st
 
@@ -20,8 +22,12 @@ st.caption("ICT336 workshop. Data from Kaggle, for teaching only, not financial 
 # ---------- STEP 2: load the saved models (only once) and make tabs ----------
 @st.cache_resource
 def load_models():
-    savings = joblib.load("savings_model.joblib")
-    saver = joblib.load("saver_model.joblib")
+    savings_path = os.path.join(BASE_DIR, "savings_model.joblib")
+    saver_path = os.path.join(BASE_DIR, "saver_model.joblib")
+
+    savings = joblib.load(savings_path)
+    saver = joblib.load(saver_path)
+
     return savings, saver
 
 
